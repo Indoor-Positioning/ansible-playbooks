@@ -1,0 +1,14 @@
+[pi1]
+192.168.1.11
+
+[pi3]
+192.168.1.9
+
+[pi:children]
+pi1
+pi3
+
+[pi:vars]
+ansible_become=True
+ansible_user=ansible
+

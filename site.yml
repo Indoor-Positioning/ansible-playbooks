@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+    - name: Check hci0 state
+      command: hciconfig hci0
+      register: hci0_state
+      changed_when: false
+
+    - name: Set hci0 inetrface up
+      command: hciconfig hci0 up
+      changed_when: "'DOWN' in hci0_state.stdout"
+
+    - name: Advertise
+      command: "hcitool -i hci0 cmd 0x08 0x0008 1F 02 01 06 03 03 aa fe 17 16 aa fe 00 00 {{ namespace }} {{ instance }} 00 00"
+
+    - name: Set to advertising mode
+      command:  hciconfig hci0 leadv 3
+      ignore_errors: true

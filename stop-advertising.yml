@@ -1,0 +1,12 @@
+---
+- hosts: all
+  tasks:
+    - name: Check hci0 state
+      command: hciconfig hci0
+      register: hci0_state
+      changed_when: false
+
+    - name: Stop Advertising
+      command: hciconfig hci0 noleadv
+      when: "'UP' in hci0_state.stdout"
+      ignore_errors: true
